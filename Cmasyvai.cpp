@@ -27,7 +27,7 @@ double median(double arr[], int size) {
     }
 }
 
-// Funkcija, kuri sugeneruoja atsitiktinius balus už namų darbus ir egzaminą
+// Funkcija, kuri sugeneruoja atsitiktinius balus už namų darbus ir egzaminą
 void generuotiBalus(double *nd_rezultatai, int nd_sk, double &eg) {
     random_device rd;
     mt19937 gen(rd());
@@ -69,12 +69,27 @@ int main() {
             cin >> naujas.vardas;
             cout << "Iveskite pavarde: ";
             cin >> naujas.pavarde;
-            cout << "Iveskite kiek namu darbu rezultatu norite suvesti: ";
-            cin >> naujas.nd_sk;
-            naujas.nd = new double[naujas.nd_sk];
-            cout << "Iveskite namu darbu rezultatus: ";
-            for (int i = 0; i < naujas.nd_sk; ++i) {
-                cin >> naujas.nd[i];
+            while (true) {
+                cout << "Iveskite kiek namu darbu rezultatu norite suvesti: ";
+                cin >> naujas.nd_sk;
+                if (naujas.nd_sk <= 0) {
+                    cout << "Klaida: Prasome ivesti teigiama skaiciu." << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                } else {
+                    naujas.nd = new double[naujas.nd_sk];
+                    cout << "Iveskite namu darbu rezultatus (nuo 1 iki 10): ";
+                    for (int i = 0; i < naujas.nd_sk; ++i) {
+                        cin >> naujas.nd[i];
+                        if (naujas.nd[i] < 1 || naujas.nd[i] > 10 || cin.fail()) {
+                            cout << "Klaida: Ivestas netinkamas skaicius. Prašome ivesti sveikaji skaiciu nuo 1 iki 10." << endl;
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            i--; // Pakartotinai įvedimas to paties elemento
+                        }
+                    }
+                    break;
+                }
             }
             cout << "Iveskite egzamino rezultata: ";
             cin >> naujas.eg;
