@@ -2,17 +2,18 @@
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <random>
 using namespace std;
 
 struct duomenys {
     string vardas;
     string pavarde;
-    double *nd; // namu darbu rezultatai (C-stiliaus masyvas)
-    int nd_sk; // kiekis namu darbu rezultatu
-    double eg; // egzamino rezultatai
-    double ndvid; // namu darbu vidurkis
-    double galutinis; // bendras vidurkis
-    double mediana; // mediana
+    double *nd;
+    int nd_sk;
+    double eg;
+    double ndvid;
+    double galutinis;
+    double mediana;
 };
 
 // Funkcija, kuri skaičiuoja medianą
@@ -26,76 +27,191 @@ double median(double arr[], int size) {
     }
 }
 
-int main() {
-    int m = 0; // Pradinis studentų skaičius
-    duomenys *A = nullptr; // Pradinis masyvas studentams
+// Funkcija, kuri sugeneruoja atsitiktinius balus už namų darbus ir egzaminą
+void generuotiBalus(double *nd_rezultatai, int nd_sk, double &eg) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> nd_distribution(1, 10);
+    uniform_int_distribution<> eg_distribution(1, 10);
 
-    while (true) {
-        cout << "Iveskite varda (arba 'x', jei norite baigti): ";
-        string vardas;
-        cin >> vardas;
-        if (vardas == "x") // Tikriname, ar įvestas pabaigos ženklas
-            break;
-
-        cout << "Iveskite pavarde: ";
-        string pavarde;
-        cin >> pavarde;
-
-        // Įrašome namų darbų rezultatus
-        cout << "Iveskite namu darbu rezultatus (baigti -1): ";
-        double *nd_rezultatai = new double[50]; // Dinaminis masyvas namu darbu rezultatams
-        int nd_sk = 0;
-        double pazymys;
-        while (cin >> pazymys && pazymys != -1) {
-            nd_rezultatai[nd_sk++] = pazymys;
-        }
-
-        duomenys naujas;
-        naujas.vardas = vardas;
-        naujas.pavarde = pavarde;
-        naujas.nd = new double[nd_sk]; // Priskiriame dinaminį masyvą namų darbų rezultatams
-        naujas.nd_sk = nd_sk; // Saugome kiekį namų darbų rezultatų
-        naujas.ndvid = 0; // Inicializuojame namų darbų vidurkį prieš pradedant skaičiavimus
-        for (int j = 0; j < nd_sk; j++) {
-            naujas.nd[j] = nd_rezultatai[j];
-            naujas.ndvid += nd_rezultatai[j];
-        }
-        naujas.ndvid /= nd_sk; // Skaičiuojame namų darbų vidurkį
-
-        delete[] nd_rezultatai; // Atlaisviname laikiną dinaminį masyvą
-
-        cout << "Iveskite egzamino rezultatus: ";
-        cin >> naujas.eg;
-
-        // Skaičiuojame medianą iš visų rezultatų
-        double *visiRezultatai = new double[nd_sk + 1]; // Visų rezultatų masyvas
-        for (int j = 0; j < nd_sk; j++) {
-            visiRezultatai[j] = naujas.nd[j];
-        }
-        visiRezultatai[nd_sk] = naujas.eg;
-        naujas.mediana = median(visiRezultatai, nd_sk + 1);
-        delete[] visiRezultatai; // Atlaisviname laikiną dinaminį masyvą
-
-        // Skaičiuojame galutinį rezultatą
-        naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
-
-        // Praplečiame masyvą nauju elementu
-        duomenys *temp = new duomenys[m + 1];
-        for (int i = 0; i < m; i++)
-            temp[i] = A[i];
-        temp[m] = naujas;
-
-        delete[] A; // Atlaisviname seną masyvą
-        A = temp; // Perkeliame naują masyvą į rodyklę
-
-        m++; // Padidiname studentų skaičių
+    for (int i = 0; i < nd_sk; ++i) {
+        nd_rezultatai[i] = nd_distribution(gen);
     }
+    eg = eg_distribution(gen);
+}
 
+// Funkcija, kuri atspausdina studentų duomenis
+void atspausdintiDuomenis(duomenys *A, int m) {
     cout << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
     cout << "------------------------------------------------------------------------" << endl;
     for (int i = 0; i < m; i++) {
-        cout << left << setw(15) << A[i].vardas << left << setw(15) << A[i].pavarde << left << setw(15) << setprecision(3) << A[i].galutinis << left << setw(15) << setprecision(3) << A[i].mediana << endl;
+        cout << left << setw(15) << A[i].vardas << left << setw(15) << A[i].pavarde << left << setw(15) << setprecision(3) << A[i].galutinis <<  "         " << left << setw(15) << setprecision(3) <<  A[i].mediana << endl;
     }
+}
+
+int main() {
+    int choice;
+    int m = 0;
+    duomenys *A = nullptr;
+
+    while (true) {
+        cout << "Pasirinkite veiksma: " << endl;
+        cout << "1. Ivesti duomenis ranka" << endl;
+        cout << "2. Generuoti pazymius" << endl;
+        cout << "3. Generuoti pazymius ir studentu vardus, pavardes" << endl;
+        cout << "4. Baigti darba" << endl;
+        cout << "Jusu pasirinkimas: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            duomenys naujas;
+            cout << "Iveskite varda: ";
+            cin >> naujas.vardas;
+            cout << "Iveskite pavarde: ";
+            cin >> naujas.pavarde;
+            cout << "Iveskite kiek namu darbu rezultatu norite suvesti: ";
+            cin >> naujas.nd_sk;
+            naujas.nd = new double[naujas.nd_sk];
+            cout << "Iveskite namu darbu rezultatus: ";
+            for (int i = 0; i < naujas.nd_sk; ++i) {
+                cin >> naujas.nd[i];
+            }
+            cout << "Iveskite egzamino rezultata: ";
+            cin >> naujas.eg;
+
+            // Skaičiuojame namų darbų vidurkį
+            naujas.ndvid = 0;
+            for (int j = 0; j < naujas.nd_sk; j++) {
+                naujas.ndvid += naujas.nd[j];
+            }
+            naujas.ndvid /= naujas.nd_sk;
+
+            // Skaičiuojame medianą iš visų rezultatų
+            double *visiRezultatai = new double[naujas.nd_sk + 1];
+            for (int j = 0; j < naujas.nd_sk; j++) {
+                visiRezultatai[j] = naujas.nd[j];
+            }
+            visiRezultatai[naujas.nd_sk] = naujas.eg;
+            naujas.mediana = median(visiRezultatai, naujas.nd_sk + 1);
+            delete[] visiRezultatai;
+
+            // Skaičiuojame galutinį vidurkį
+            naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
+
+            // Praplečiame masyvą nauju elementu
+            duomenys *temp = new duomenys[m + 1];
+            for (int i = 0; i < m; i++)
+                temp[i] = A[i];
+            temp[m] = naujas;
+
+            delete[] A;
+            A = temp;
+
+            m++;
+        } else if (choice == 2) {
+            cout << "Kiek mokiniu duomenis sugeneruoti: ";
+            int n;
+            cin >> n;
+
+            for (int i = 0; i < n; i++) {
+                duomenys naujas;
+                cout << "Iveskite varda: ";
+                cin >> naujas.vardas;
+                cout << "Iveskite pavarde: ";
+                cin >> naujas.pavarde;
+                cout << "Iveskite kiek namu darbu rezultatu norite sugeneruoti: ";
+                cin >> naujas.nd_sk;
+                naujas.nd = new double[naujas.nd_sk];
+
+                // Sugeneruojame atsitiktinius namų darbų rezultatus
+                for (int j = 0; j < naujas.nd_sk; j++) {
+                    naujas.nd[j] = rand() % 10 + 1; // Sugeneruojame rezultatus nuo 1 iki 10
+                }
+
+                // Sugeneruojame atsitiktinį egzamino rezultatą
+                naujas.eg = rand() % 10 + 1; // Sugeneruojame rezultatą nuo 1 iki 10
+
+                // Skaičiuojame namų darbų vidurkį
+                naujas.ndvid = 0;
+                for (int j = 0; j < naujas.nd_sk; j++) {
+                    naujas.ndvid += naujas.nd[j];
+                }
+                naujas.ndvid /= naujas.nd_sk;
+
+                // Skaičiuojame medianą iš visų rezultatų
+                double *visiRezultatai = new double[naujas.nd_sk + 1];
+                for (int j = 0; j < naujas.nd_sk; j++) {
+                    visiRezultatai[j] = naujas.nd[j];
+                }
+                visiRezultatai[naujas.nd_sk] = naujas.eg;
+                naujas.mediana = median(visiRezultatai, naujas.nd_sk + 1);
+                delete[] visiRezultatai;
+
+                // Skaičiuojame galutinį vidurkį
+                naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
+
+                // Praplečiame masyvą nauju elementu
+                duomenys *temp = new duomenys[m + 1];
+                for (int i = 0; i < m; i++)
+                    temp[i] = A[i];
+                temp[m] = naujas;
+
+                delete[] A;
+                A = temp;
+
+                m++;
+            }
+        } else if (choice == 3) {
+            cout << "Kiek mokiniu duomenis sugeneruoti: ";
+            int n;
+            cin >> n;
+
+            for (int i = 0; i < n; i++) {
+                duomenys naujas;
+                naujas.nd_sk = rand() % 10 + 1; // Sugeneruoti atsitiktinį kiekį namų darbų rezultatų nuo 1 iki 10
+                naujas.nd = new double[naujas.nd_sk];
+                generuotiBalus(naujas.nd, naujas.nd_sk, naujas.eg); // Sugeneruoti atsitiktinius namų darbų ir egzamino rezultatus
+                naujas.vardas = "Vardas" + to_string(i + 1); // Sugeneruoti atsitiktinį vardą
+                naujas.pavarde = "Pavarde" + to_string(i + 1); // Sugeneruoti atsitiktinę pavardę
+
+                // Skaičiuojame namų darbų vidurkį
+                naujas.ndvid = 0;
+                for (int j = 0; j < naujas.nd_sk; j++) {
+                    naujas.ndvid += naujas.nd[j];
+                }
+                naujas.ndvid /= naujas.nd_sk;
+
+                // Skaičiuojame medianą iš visų rezultatų
+                double *visiRezultatai = new double[naujas.nd_sk + 1];
+                for (int j = 0; j < naujas.nd_sk; j++) {
+                    visiRezultatai[j] = naujas.nd[j];
+                }
+                visiRezultatai[naujas.nd_sk] = naujas.eg;
+                naujas.mediana = median(visiRezultatai, naujas.nd_sk + 1);
+                delete[] visiRezultatai;
+
+                // Skaičiuojame galutinį vidurkį
+                naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
+
+                // Praplečiame masyvą nauju elementu
+                duomenys *temp = new duomenys[m + 1];
+                for (int i = 0; i < m; i++)
+                    temp[i] = A[i];
+                temp[m] = naujas;
+
+                delete[] A;
+                A = temp;
+
+                m++;
+            }
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
+        }
+    }
+
+    atspausdintiDuomenis(A, m);
 
     // Atlaisviname dinaminį masyvą
     for (int i = 0; i < m; i++) {
