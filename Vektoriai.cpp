@@ -65,7 +65,7 @@ int main() {
         cin >> choice;
 
         if (cin.fail()) {
-            cout << "Klaida: Netinkamas pasirinkimas. Prašome įvesti skaičių nuo 1 iki 4." << endl;
+            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 4." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -85,7 +85,7 @@ int main() {
             for (int i = 0; i < nd_sk; ++i) {
                 cin >> naujas.nd[i];
                 if (naujas.nd[i] < 1 || naujas.nd[i] > 10 || cin.fail()) {
-                    cout << "Klaida: Ivestas netinkamas skaicius. Prašome ivesti sveikaji skaiciu nuo 1 iki 10." << endl;
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu nuo 1 iki 10." << endl;
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     i--; // Pakartotinai įvedimas to paties elemento
@@ -96,7 +96,7 @@ int main() {
                     cout << "Iveskite egzamino rezultata: ";
                     cin >> naujas.eg;
                 if (naujas.eg < 1 || naujas.eg > 10 || cin.fail()) {
-                    cout << "Klaida: Ivestas netinkamas skaicius. Prašome ivesti sveikaji skaiciu nuo 1 iki 10." << endl;
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu nuo 1 iki 10." << endl;
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     i--; // Pakartotinai įvedimas to paties elemento
@@ -203,5 +203,6 @@ int main() {
 
     return 0;
 }
+
 
 
