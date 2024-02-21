@@ -79,7 +79,15 @@ int main() {
             cin >> naujas.pavarde;
             cout << "Iveskite kiek namu darbu rezultatu norite suvesti: ";
             int nd_sk;
-            cin >> nd_sk;
+            for (int i = 0; i < 1; ++i) {
+                cin >> nd_sk;
+                if (nd_sk < 1 || cin.fail()) {
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    i--; // Pakartotinai įvedimas to paties elemento
+                }
+            }
             naujas.nd.resize(nd_sk);
             cout << "Iveskite namu darbu rezultatus (nuo 1 iki 10): ";
             for (int i = 0; i < nd_sk; ++i) {
@@ -123,7 +131,15 @@ int main() {
         } else if (choice == 2) {
             cout << "Kiek mokiniu duomenis sugeneruoti: ";
             int n;
+            for (int i = 0; i < 1; ++i) {
             cin >> n;
+            if (n < 1 || n > 10 || cin.fail()) {
+            cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            i--; // Pakartotinai įvedimas to paties elemento
+            }
+            }
 
             for (int i = 0; i < n; i++) {
                 duomenys naujas;
@@ -133,8 +149,16 @@ int main() {
                 cin >> naujas.pavarde;
                 cout << "Iveskite kiek namu darbu rezultatu norite sugeneruoti: ";
                 int nd_sk;
+                for (int i = 0; i < 1; ++i) {
                 cin >> nd_sk;
-                naujas.nd.resize(nd_sk);
+                if (nd_sk < 1 || cin.fail()) {
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    i--; // Pakartotinai įvedimas to paties elemento
+                }
+            }
+            naujas.nd.resize(nd_sk);
 
                 // Sugeneruojame atsitiktinius namų darbų rezultatus
                 for (size_t j = 0; j < naujas.nd.size(); j++) {
@@ -165,7 +189,15 @@ int main() {
         } else if (choice == 3) {
             cout << "Kiek mokiniu duomenis sugeneruoti: ";
             int n;
+            for (int i = 0; i < 1; ++i) {
             cin >> n;
+            if (n < 1 || n > 10 || cin.fail()) {
+            cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            i--; // Pakartotinai įvedimas to paties elemento
+            }
+            }
 
             for (int i = 0; i < n; i++) {
                 duomenys naujas;
@@ -203,6 +235,3 @@ int main() {
 
     return 0;
 }
-
-
-
