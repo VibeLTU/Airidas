@@ -41,11 +41,22 @@ void generuotiBalus(vector<double>& nd_rezultatai, double& eg) {
     eg = eg_distribution(gen);
 }
 
-void atspausdintiDuomenis(const vector<duomenys>& A) {
-    cout << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
-    cout << "------------------------------------------------------------------------" << endl;
-    for (const auto& studentas : A) {
-        cout << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
+void atspausdintiDuomenis(const vector<duomenys>& A, bool iFaila = false) {
+    if (iFaila) {
+        ofstream out("Isvedimas.txt");
+        out << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
+        out << "------------------------------------------------------------------------" << endl;
+        for (const auto& studentas : A) {
+            out << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
+        }
+        out.close();
+        cout << "Duomenys irasyti i faila 'Isvedimas.txt'" << endl;
+    } else {
+        cout << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
+        cout << "------------------------------------------------------------------------" << endl;
+        for (const auto& studentas : A) {
+            cout << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
+        }
     }
 }
 
@@ -115,12 +126,13 @@ int main() {
         cout << "3. Generuoti pazymius ir studentu vardus, pavardes" << endl;
         cout << "4. Nuskaityti duomenis is failo" << endl;
         cout << "5. Rikiuoti duomenis" << endl;
-        cout << "6. Baigti darba" << endl;
+        cout << "6. Isvesti duomenis" << endl;
+        cout << "7. Baigti darba" << endl;
         cout << "Jusu pasirinkimas: ";
         cin >> choice;
 
         if (cin.fail()) {
-            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 6." << endl;
+            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 7." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -315,13 +327,26 @@ int main() {
                 cout << "Netinkamas pasirinkimas!" << endl;
             }
         } else if (choice == 6) {
+            int isvedimoPasirinkimas;
+            cout << "Pasirinkite, kaip norite isvesti duomenis:" << endl;
+            cout << "1. I konsole" << endl;
+            cout << "2. I faila 'Isvedimas.txt'" << endl;
+            cout << "Jusu pasirinkimas: ";
+            cin >> isvedimoPasirinkimas;
+
+            if (isvedimoPasirinkimas == 1) {
+                atspausdintiDuomenis(A);
+            } else if (isvedimoPasirinkimas == 2) {
+                atspausdintiDuomenis(A, true);
+            } else {
+                cout << "Netinkamas pasirinkimas!" << endl;
+            }
+        } else if (choice == 7) {
             break;
         } else {
             cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
         }
     }
-
-    atspausdintiDuomenis(A);
 
     return 0;
 }
