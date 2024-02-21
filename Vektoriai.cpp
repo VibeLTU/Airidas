@@ -18,7 +18,6 @@ struct duomenys {
     double mediana;
 };
 
-// Funkcija, kuri skaičiuoja medianą
 double median(const vector<double>& arr) {
     vector<double> temp = arr;
     sort(temp.begin(), temp.end());
@@ -30,7 +29,6 @@ double median(const vector<double>& arr) {
     }
 }
 
-// Funkcija, kuri sugeneruoja atsitiktinius balus už namų darbus ir egzaminą
 void generuotiBalus(vector<double>& nd_rezultatai, double& eg) {
     random_device rd;
     mt19937 gen(rd());
@@ -43,7 +41,6 @@ void generuotiBalus(vector<double>& nd_rezultatai, double& eg) {
     eg = eg_distribution(gen);
 }
 
-// Funkcija, kuri atspausdina studentų duomenis
 void atspausdintiDuomenis(const vector<duomenys>& A) {
     cout << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
     cout << "------------------------------------------------------------------------" << endl;
@@ -51,6 +48,31 @@ void atspausdintiDuomenis(const vector<duomenys>& A) {
         cout << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
     }
 }
+
+void rikiuotiPagalVarda(vector<duomenys>& A) {
+    sort(A.begin(), A.end(), [](const duomenys& a, const duomenys& b) {
+        return a.vardas < b.vardas;
+    });
+}
+
+void rikiuotiPagalPavarde(vector<duomenys>& A) {
+    sort(A.begin(), A.end(), [](const duomenys& a, const duomenys& b) {
+        return a.pavarde < b.pavarde;
+    });
+}
+
+void rikiuotiPagalGalutiniVidurki(vector<duomenys>& A) {
+    sort(A.begin(), A.end(), [](const duomenys& a, const duomenys& b) {
+        return a.galutinis < b.galutinis;
+    });
+}
+
+void rikiuotiPagalMediana(vector<duomenys>& A) {
+    sort(A.begin(), A.end(), [](const duomenys& a, const duomenys& b) {
+        return a.mediana < b.mediana;
+    });
+}
+
 void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
     ifstream failas(failoPavadinimas);
     if (!failas.is_open()) {
@@ -82,8 +104,6 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
     failas.close();
 }
 
-
-
 int main() {
     int choice;
     vector<duomenys> A;
@@ -94,12 +114,13 @@ int main() {
         cout << "2. Generuoti pazymius" << endl;
         cout << "3. Generuoti pazymius ir studentu vardus, pavardes" << endl;
         cout << "4. Nuskaityti duomenis is failo" << endl;
-        cout << "5. Baigti darba" << endl;
+        cout << "5. Rikiuoti duomenis" << endl;
+        cout << "6. Baigti darba" << endl;
         cout << "Jusu pasirinkimas: ";
         cin >> choice;
 
         if (cin.fail()) {
-            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 4." << endl;
+            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 6." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -225,7 +246,7 @@ int main() {
             int n;
             for (int i = 0; i < 1; ++i) {
             cin >> n;
-            if (n < 1 || n > 10 || cin.fail()) {
+            if (n < 1 || cin.fail()) {
             cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -263,7 +284,37 @@ int main() {
         cout << "Iveskite failo pavadinima: ";
         cin >> pavadinimas;
         skaitytiIsFailo(A, pavadinimas);
-    } else if (choice == 5) {
+    }else if (choice == 5) {
+            int rikiavimoPasirinkimas;
+            cout << "Pasirinkite, kaip rikiuoti duomenis:" << endl;
+            cout << "1. Pagal varda" << endl;
+            cout << "2. Pagal pavarde" << endl;
+            cout << "3. Pagal galutini (vid.)" << endl;
+            cout << "4. Pagal galutini (med.)" << endl;
+            cout << "Jusu pasirinkimas: ";
+                        int n;
+            for (int i = 0; i < 1; ++i) {
+            cin >> rikiavimoPasirinkimas;
+            if (rikiavimoPasirinkimas < 1 || rikiavimoPasirinkimas > 4 || cin.fail()) {
+            cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            i--; // Pakartotinai įvedimas to paties elemento
+            }
+            }
+
+            if (rikiavimoPasirinkimas == 1) {
+                rikiuotiPagalVarda(A);
+            } else if (rikiavimoPasirinkimas == 2) {
+                rikiuotiPagalPavarde(A);
+            } else if (rikiavimoPasirinkimas == 3) {
+                rikiuotiPagalGalutiniVidurki(A);
+            } else if (rikiavimoPasirinkimas == 4) {
+                rikiuotiPagalMediana(A);
+            } else {
+                cout << "Netinkamas pasirinkimas!" << endl;
+            }
+        } else if (choice == 6) {
             break;
         } else {
             cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
