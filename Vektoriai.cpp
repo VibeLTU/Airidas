@@ -5,6 +5,7 @@
 #include <vector>
 #include <random>
 #include <fstream>
+#include <chrono>
 
 using namespace std;
 
@@ -91,6 +92,7 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
         return;
     }
 
+    auto start = std::chrono::high_resolution_clock::now(); //funkcijos pradzioj
     string eilute;
     getline(failas, eilute); // Praleisti pirmąją eilutę
     while (getline(failas, eilute)) {
@@ -112,6 +114,7 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
         naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
         A.push_back(naujas);
     }
+    std::cout << "Nuskaitymas uztruko " << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n"; //funkcijos pabaigoj
     failas.close();
 }
 
@@ -350,4 +353,3 @@ int main() {
 
     return 0;
 }
-
