@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <random>
+#include <fstream>
 
 using namespace std;
 
@@ -50,6 +51,34 @@ void atspausdintiDuomenis(const vector<duomenys>& A) {
         cout << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
     }
 }
+void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
+    ifstream failas(failoPavadinimas);
+    if (!failas.is_open()) {
+        cout << "Klaida: Nepavyko atidaryti failo " << failoPavadinimas << endl;
+        return;
+    }
+
+    string eilute;
+    getline(failas, eilute); // Praleisti antraštę
+
+    while (getline(failas, eilute)) {
+        istringstream eilutesSrautas(eilute);
+        duomenys naujas;
+        eilutesSrautas >> naujas.vardas >> naujas.pavarde;
+        double pazymys;
+        while (eilutesSrautas >> pazymys) {
+            naujas.nd.push_back(pazymys);
+        }
+        failas >> naujas.eg;
+        naujas.ndvid = accumulate(naujas.nd.begin(), naujas.nd.end(), 0.0) / naujas.nd.size();
+        vector<double> visiRezultatai = naujas.nd;
+        visiRezultatai.push_back(naujas.eg);
+        naujas.mediana = median(visiRezultatai);
+        naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
+        A.push_back(naujas);
+    }
+    failas.close();
+}
 
 int main() {
     int choice;
@@ -60,7 +89,8 @@ int main() {
         cout << "1. Ivesti duomenis ranka" << endl;
         cout << "2. Generuoti pazymius" << endl;
         cout << "3. Generuoti pazymius ir studentu vardus, pavardes" << endl;
-        cout << "4. Baigti darba" << endl;
+        cout << "4. Nuskaityti duomenis is failo" << endl;
+        cout << "5. Baigti darba" << endl;
         cout << "Jusu pasirinkimas: ";
         cin >> choice;
 
@@ -79,7 +109,15 @@ int main() {
             cin >> naujas.pavarde;
             cout << "Iveskite kiek namu darbu rezultatu norite suvesti: ";
             int nd_sk;
-            cin >> nd_sk;
+            for (int i = 0; i < 1; ++i) {
+                cin >> nd_sk;
+                if (nd_sk < 1 || cin.fail()) {
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    i--; // Pakartotinai įvedimas to paties elemento
+                }
+            }
             naujas.nd.resize(nd_sk);
             cout << "Iveskite namu darbu rezultatus (nuo 1 iki 10): ";
             for (int i = 0; i < nd_sk; ++i) {
@@ -123,7 +161,15 @@ int main() {
         } else if (choice == 2) {
             cout << "Kiek mokiniu duomenis sugeneruoti: ";
             int n;
+            for (int i = 0; i < 1; ++i) {
             cin >> n;
+            if (n < 1 || n > 10 || cin.fail()) {
+            cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            i--; // Pakartotinai įvedimas to paties elemento
+            }
+            }
 
             for (int i = 0; i < n; i++) {
                 duomenys naujas;
@@ -133,8 +179,16 @@ int main() {
                 cin >> naujas.pavarde;
                 cout << "Iveskite kiek namu darbu rezultatu norite sugeneruoti: ";
                 int nd_sk;
+                for (int i = 0; i < 1; ++i) {
                 cin >> nd_sk;
-                naujas.nd.resize(nd_sk);
+                if (nd_sk < 1 || cin.fail()) {
+                    cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    i--; // Pakartotinai įvedimas to paties elemento
+                }
+            }
+            naujas.nd.resize(nd_sk);
 
                 // Sugeneruojame atsitiktinius namų darbų rezultatus
                 for (size_t j = 0; j < naujas.nd.size(); j++) {
@@ -165,7 +219,15 @@ int main() {
         } else if (choice == 3) {
             cout << "Kiek mokiniu duomenis sugeneruoti: ";
             int n;
+            for (int i = 0; i < 1; ++i) {
             cin >> n;
+            if (n < 1 || n > 10 || cin.fail()) {
+            cout << "Klaida: Ivestas netinkamas skaicius. Prasome ivesti sveikaji skaiciu" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            i--; // Pakartotinai įvedimas to paties elemento
+            }
+            }
 
             for (int i = 0; i < n; i++) {
                 duomenys naujas;
@@ -193,6 +255,11 @@ int main() {
             }
 
         } else if (choice == 4) {
+        string pavadinimas;
+        cout << "Iveskite failo pavadinima: ";
+        cin >> pavadinimas;
+        skaitytiIsFailo(A, pavadinimas);
+    } else if (choice == 5) {
             break;
         } else {
             cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
@@ -203,6 +270,4 @@ int main() {
 
     return 0;
 }
-
-
 
