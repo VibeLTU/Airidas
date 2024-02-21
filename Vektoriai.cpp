@@ -59,8 +59,7 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
     }
 
     string eilute;
-    getline(failas, eilute); // Praleisti antraštę
-
+    getline(failas, eilute); // Praleisti pirmąją eilutę
     while (getline(failas, eilute)) {
         istringstream eilutesSrautas(eilute);
         duomenys naujas;
@@ -69,7 +68,10 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
         while (eilutesSrautas >> pazymys) {
             naujas.nd.push_back(pazymys);
         }
-        failas >> naujas.eg;
+        if (!naujas.nd.empty()) {
+            naujas.eg = naujas.nd.back();
+            naujas.nd.pop_back();
+        }
         naujas.ndvid = accumulate(naujas.nd.begin(), naujas.nd.end(), 0.0) / naujas.nd.size();
         vector<double> visiRezultatai = naujas.nd;
         visiRezultatai.push_back(naujas.eg);
@@ -79,6 +81,8 @@ void skaitytiIsFailo(vector<duomenys>& A, const string& failoPavadinimas) {
     }
     failas.close();
 }
+
+
 
 int main() {
     int choice;
