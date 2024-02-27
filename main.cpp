@@ -187,11 +187,16 @@ int main() {
             }
 
         } else if (choice == 4) {
-        string pavadinimas;
+        string failoPavadinimas;
         cout << "Iveskite failo pavadinima: ";
-        cin >> pavadinimas;
-        skaitytiIsFailo(A, pavadinimas);
-    }else if (choice == 5) {
+        cin >> failoPavadinimas;
+
+        try {
+            skaitytiIsFailo(A, failoPavadinimas);
+        } catch (const exception& e) {
+            cout << e.what() << endl;
+        }
+        }else if (choice == 5) {
             int rikiavimoPasirinkimas;
             cout << "Pasirinkite, kaip rikiuoti duomenis:" << endl;
             cout << "1. Pagal varda" << endl;
@@ -245,4 +250,3 @@ int main() {
 
     return 0;
 }
-
