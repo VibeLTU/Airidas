@@ -6,13 +6,13 @@
 #include <random>
 #include <fstream>
 #include <chrono>
-#include "Funkcijos.cpp"
+#include "Struktura.h"
 
 using namespace std;
 
 int main() {
     int choice;
-    vector<duomenys> A;
+    vector<Duomenys> A;
 
     while (true) {
         cout << "Pasirinkite veiksma: " << endl;
@@ -34,7 +34,7 @@ int main() {
         }
 
         if (choice == 1) {
-            duomenys naujas;
+            Duomenys naujas;
             cout << "Iveskite varda: ";
             cin >> naujas.vardas;
             cout << "Iveskite pavarde: ";
@@ -104,7 +104,7 @@ int main() {
             }
 
             for (int i = 0; i < n; i++) {
-                duomenys naujas;
+                Duomenys naujas;
                 cout << "Iveskite varda: ";
                 cin >> naujas.vardas;
                 cout << "Iveskite pavarde: ";
@@ -162,7 +162,7 @@ int main() {
             }
 
             for (int i = 0; i < n; i++) {
-                duomenys naujas;
+                Duomenys naujas;
                 naujas.nd.resize(rand() % 10 + 1); // Sugeneruoti atsitiktinį kiekį namų darbų rezultatų nuo 1 iki 10
                 generuotiBalus(naujas.nd, naujas.eg); // Sugeneruoti atsitiktinius namų darbų ir egzamino rezultatus
                 naujas.vardas = "Vardas" + to_string(i + 1); // Sugeneruoti atsitiktinį vardą
