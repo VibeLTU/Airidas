@@ -24,4 +24,3 @@ void rikiuotiPagalMediana(std::vector<Duomenys>& A);
 void skaitytiIsFailo(std::vector<Duomenys>& A, const std::string& failoPavadinimas);
 
 #endif // STRUKTURA_H_INCLUDED
-
