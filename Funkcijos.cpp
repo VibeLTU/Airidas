@@ -77,9 +77,9 @@ void rikiuotiPagalMediana(vector<Duomenys>& A) {
 
 void skaitytiIsFailo(vector<Duomenys>& A, const string& failoPavadinimas) {
     ifstream failas(failoPavadinimas);
+
     if (!failas.is_open()) {
-        cout << "Klaida: Nepavyko atidaryti failo " << failoPavadinimas << endl;
-        return;
+        throw runtime_error("Klaida: Nepavyko atidaryti failo " + failoPavadinimas);
     }
 
     auto start = chrono::high_resolution_clock::now(); // funkcijos pradzioj
@@ -106,6 +106,9 @@ void skaitytiIsFailo(vector<Duomenys>& A, const string& failoPavadinimas) {
     }
     cout << "Nuskaitymas uztruko " << (chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n"; // funkcijos pabaigoj
     failas.close();
+
+
+
 }
 
 void generuotiFailaSuStudentais(int irasu_skaicius) {
@@ -135,5 +138,25 @@ for (int i = 0; i < irasu_skaicius; ++i) {
 
     failas.close();
     cout << "Failas " << failo_pavadinimas << " sukurtas sekmingai." << endl;
+}
+
+void isvestiIVardus(const vector<Duomenys>& A) {
+        ofstream out("vargšiukai.txt");
+        ofstream out1 ("kietiakiai.txt");
+        out << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
+        out << "------------------------------------------------------------------------" << endl;
+        out1 << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
+        out1 << "------------------------------------------------------------------------" << endl;
+        for (const auto& studentas : A) {
+            if (studentas.galutinis < 5.0){
+            out << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
+            }
+            else {
+            out1 << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
+            }
+        }
+        cout <<"Studentai buvo paskirstyti i vargsiukus ir kietiakus" << endl;
+        out.close();
+        out1.close();
 }
 
