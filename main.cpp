@@ -22,7 +22,8 @@ int main() {
         cout << "4. Nuskaityti duomenis is failo" << endl;
         cout << "5. Rikiuoti duomenis" << endl;
         cout << "6. Isvesti duomenis" << endl;
-        cout << "7. Baigti darba" << endl;
+        cout << "7. Generuoti faila su studentais" << endl;
+        cout << "8. Baigti darba" << endl;
         cout << "Jusu pasirinkimas: ";
         cin >> choice;
 
@@ -242,6 +243,19 @@ int main() {
                 cout << "Netinkamas pasirinkimas!" << endl;
             }
         } else if (choice == 7) {
+            int irasu_skaicius;
+            cout << "Iveskite studentu irasu skaiciu: ";
+            cin >> irasu_skaicius;
+
+            if (cin.fail() || irasu_skaicius < 1) {
+                cout << "Klaida: Netinkamas studentu irasu skaicius. Iveskite teigiama skaiciu." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+
+            generuotiFailaSuStudentais(irasu_skaicius);
+        } else if (choice == 8) {
             break;
         } else {
             cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
