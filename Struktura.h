@@ -22,5 +22,5 @@ void rikiuotiPagalPavarde(std::vector<Duomenys>& A);
 void rikiuotiPagalGalutiniVidurki(std::vector<Duomenys>& A);
 void rikiuotiPagalMediana(std::vector<Duomenys>& A);
 void skaitytiIsFailo(std::vector<Duomenys>& A, const std::string& failoPavadinimas);
-
+void generuotiFailaSuStudentais(int irasu_skaicius);
 #endif // STRUKTURA_H_INCLUDED
