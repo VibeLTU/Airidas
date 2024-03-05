@@ -108,3 +108,32 @@ void skaitytiIsFailo(vector<Duomenys>& A, const string& failoPavadinimas) {
     failas.close();
 }
 
+void generuotiFailaSuStudentais(int irasu_skaicius) {
+    ofstream failas;
+    string failo_pavadinimas = "Studentai_" + to_string(irasu_skaicius) + ".txt";
+    failas.open(failo_pavadinimas);
+
+    if (!failas.is_open()) {
+        cout << "Klaida: Nepavyko sukurti failo " << failo_pavadinimas << endl;
+        return;
+    }
+
+    failas << "Vardas              Pavarde             ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9      ND10      ND11      ND12      ND13      ND14      ND15      Egz." << endl;
+
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> nd_distribution(1, 10);
+    uniform_int_distribution<> eg_distribution(1, 10);
+
+for (int i = 0; i < irasu_skaicius; ++i) {
+    failas << setw(20) << left << ("Vardas" + to_string(i + 1)) << setw(20) << left << ("Pavarde" + to_string(i + 1));
+    for (int j = 0; j < 15; ++j) {
+        failas << setw(10) << left << nd_distribution(gen);
+    }
+    failas << setw(10) << left << eg_distribution(gen) << endl;
+}
+
+    failas.close();
+    cout << "Failas " << failo_pavadinimas << " sukurtas sekmingai." << endl;
+}
+
