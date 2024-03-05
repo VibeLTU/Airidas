@@ -23,12 +23,13 @@ int main() {
         cout << "5. Rikiuoti duomenis" << endl;
         cout << "6. Isvesti duomenis" << endl;
         cout << "7. Generuoti faila su studentais" << endl;
-        cout << "8. Baigti darba" << endl;
+        cout << "8. Kategorizuoti studentus pagal galutini bala" << endl;
+        cout << "9. Baigti darba" << endl;
         cout << "Jusu pasirinkimas: ";
         cin >> choice;
 
         if (cin.fail()) {
-            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 7." << endl;
+            cout << "Klaida: Netinkamas pasirinkimas. Prasome ivesti skaiciu nuo 1 iki 9." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
@@ -256,6 +257,8 @@ int main() {
 
             generuotiFailaSuStudentais(irasu_skaicius);
         } else if (choice == 8) {
+                isvestiIVardus(A);
+        } else if (choice == 9) {
             break;
         } else {
             cout << "Pasirinkimas neteisingas. Bandykite dar karta." << endl;
@@ -264,3 +267,4 @@ int main() {
 
     return 0;
 }
+
