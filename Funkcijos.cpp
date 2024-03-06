@@ -82,7 +82,6 @@ void skaitytiIsFailo(vector<Duomenys>& A, const string& failoPavadinimas) {
         throw runtime_error("Klaida: Nepavyko atidaryti failo " + failoPavadinimas);
     }
 
-    auto start = chrono::high_resolution_clock::now(); // funkcijos pradzioj
     string eilute;
     getline(failas, eilute); // Praleisti pirma eilute
     while (getline(failas, eilute)) {
@@ -104,7 +103,6 @@ void skaitytiIsFailo(vector<Duomenys>& A, const string& failoPavadinimas) {
         naujas.galutinis = 0.4 * naujas.ndvid + 0.6 * naujas.eg;
         A.push_back(naujas);
     }
-    cout << "Nuskaitymas uztruko " << (chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - start).count())/1000.0 << " s\n"; // funkcijos pabaigoj
     failas.close();
 
 
@@ -182,7 +180,7 @@ void rikiuotiStudentus(vector<Duomenys>& geri_studentai, vector<Duomenys>& blogi
         cout << "Netinkamas pasirinkimas!" << endl;
         return;
     }
-
+    auto start = chrono::high_resolution_clock::now();
     // Išvesti gerus studentus į failą "Geri_studentai.txt"
     ofstream geri_failas("Geri_studentai.txt");
     if (!geri_failas.is_open()) {
@@ -195,20 +193,30 @@ void rikiuotiStudentus(vector<Duomenys>& geri_studentai, vector<Duomenys>& blogi
         geri_failas << left << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << setw(15) << setprecision(3) << studentas.galutinis << setw(15) << setprecision(3) << studentas.mediana << endl;
     }
     geri_failas.close();
-    cout << "Geri studentai išvesti į failą Geri_studentai.txt" << endl;
+    auto geri_end = chrono::high_resolution_clock::now();
+    chrono::duration<double> geri_diff = geri_end - start;
 
-    // Išvesti blogus studentus į failą "Blogi_studentai.txt"
+    cout << "Geri studentai isvesti i faila Geri_studentai.txt" << endl;
+    cout << "Tai uztruko: " << geri_diff.count() << " s" << endl;
+
+    auto blogi_start = chrono::high_resolution_clock::now();
+
+    // Isvesti blogus studentus į failą "Blogi_studentai.txt"
     ofstream blogi_failas("Blogi_studentai.txt");
     if (!blogi_failas.is_open()) {
-        cout << "Klaida: Nepavyko sukurti failo Blogi_studentai.txt" << endl;
-        return;
+    cout << "Klaida: Nepavyko sukurti failo Blogi_studentai.txt" << endl;
+    return;
     }
     blogi_failas << "Blogi studentai:" << endl;
     blogi_failas << "Vardas         Pavarde       (Vid.)        (Med.)" << endl;
     for (const auto& studentas : blogi_studentai) {
-        blogi_failas << left << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << setw(15) << setprecision(3) << studentas.galutinis << setw(15) << setprecision(3) << studentas.mediana << endl;
+    blogi_failas << left << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << setw(15) << setprecision(3) << studentas.galutinis << setw(15) << setprecision(3) << studentas.mediana << endl;
     }
     blogi_failas.close();
-    cout << "Blogi studentai išvesti į failą Blogi_studentai.txt" << endl;
+    auto blogi_end = chrono::high_resolution_clock::now();
+    chrono::duration<double> blogi_diff = blogi_end - blogi_start;
+
+    cout << "Blogi studentai isvesti i faila Blogi_studentai.txt" << endl;
+    cout << "Tai uztruko: " << blogi_diff.count() << " s" << endl;
 }
 
