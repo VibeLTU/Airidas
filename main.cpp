@@ -194,7 +194,11 @@ int main() {
         cin >> failoPavadinimas;
 
         try {
+            auto start = chrono::high_resolution_clock::now();
             skaitytiIsFailo(A, failoPavadinimas);
+            auto end = chrono::high_resolution_clock::now();
+            chrono::duration<double> diff = end - start;
+            cout << "Failo nuskaitymas uztruko: " << diff.count() << " s" << endl;
         } catch (const exception& e) {
             cout << e.what() << endl;
         }
@@ -254,11 +258,17 @@ int main() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
             }
-
+            auto start = chrono::high_resolution_clock::now();
             generuotiFailaSuStudentais(irasu_skaicius);
+            auto end = chrono::high_resolution_clock::now();
+            chrono::duration<double> diff = end - start;
+
+            cout << "Failo generavimas uztruko: " << diff.count() << " s" << endl;
+
         } else if (choice == 8) {
             vector<Duomenys> geri_studentai;
             vector<Duomenys> blogi_studentai;
+            auto start = chrono::high_resolution_clock::now();
             for (const auto& studentas : A) {
             if (studentas.galutinis >= 5.0) {
             geri_studentai.push_back(studentas);
@@ -266,6 +276,9 @@ int main() {
             blogi_studentai.push_back(studentas);
         }
     }
+            auto end = chrono::high_resolution_clock::now();
+            chrono::duration<double> diff = end - start;
+            cout << "Rusiavimas uztruko: " << diff.count() << " s" << endl;
     rikiuotiStudentus(geri_studentai, blogi_studentai);
         } else if (choice == 9) {
             break;
