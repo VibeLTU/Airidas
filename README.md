@@ -21,24 +21,24 @@
 ### Studentų išvedimas į du naujus failus  
   
 #### Studentų rūšiavimas gerus  
-Geri studentai isvesti i faila Geri_studentai.txt  
-Tai uztruko: 0.0040007 s
-Geri studentai isvesti i faila Geri_studentai.txt  
-Tai uztruko: 0.0300068 s
-Geri studentai isvesti i faila Geri_studentai.txt   
-Tai uztruko: 0.302068 s
-Geri studentai isvesti i faila Geri_studentai.txt  
-Tai uztruko: 3.09814 s
-Geri studentai isvesti i faila Geri_studentai.txt  
-Tai uztruko: 30.6174 s
+Geri studentai isvesti i faila Geri_studentai.txt
+Tai uztruko: 0.0040007 s  
+Geri studentai isvesti i faila Geri_studentai.txt
+Tai uztruko: 0.0300068 s  
+Geri studentai isvesti i faila Geri_studentai.txt
+Tai uztruko: 0.302068 s  
+Geri studentai isvesti i faila Geri_studentai.txt
+Tai uztruko: 3.09814 s  
+Geri studentai isvesti i faila Geri_studentai.txt
+Tai uztruko: 30.6174 s  
 #### Studentų rūšiavimas į blogus  
-Blogi studentai isvesti i faila Blogi_studentai.txt  
-Tai uztruko: 0.0010003 s
-Blogi studentai isvesti i faila Blogi_studentai.txt  
-Tai uztruko: 0.0070016 s
-Blogi studentai isvesti i faila Blogi_studentai.txt  
-Tai uztruko: 0.0760182 s
-Blogi studentai isvesti i faila Blogi_studentai.txt  
-Tai uztruko: 0.829187 s
-Blogi studentai isvesti i faila Blogi_studentai.txt  
-Tai uztruko: 8.09913 s
+Blogi studentai isvesti i faila Blogi_studentai.txt
+Tai uztruko: 0.0010003 s  
+Blogi studentai isvesti i faila Blogi_studentai.txt
+Tai uztruko: 0.0070016 s  
+Blogi studentai isvesti i faila Blogi_studentai.txt
+Tai uztruko: 0.0760182 s  
+Blogi studentai isvesti i faila Blogi_studentai.txt
+Tai uztruko: 0.829187 s  
+Blogi studentai isvesti i faila Blogi_studentai.txt
+Tai uztruko: 8.09913 s  
