@@ -140,23 +140,75 @@ for (int i = 0; i < irasu_skaicius; ++i) {
     cout << "Failas " << failo_pavadinimas << " sukurtas sekmingai." << endl;
 }
 
-void isvestiIVardus(const vector<Duomenys>& A) {
-        ofstream out("vargšiukai.txt");
-        ofstream out1 ("kietiakiai.txt");
-        out << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
-        out << "------------------------------------------------------------------------" << endl;
-        out1 << "Vardas" << "         " << "Pavarde" << "        " << "Galutinis (Vid.)" << "        " << "Galutinis (Med.)" << endl;
-        out1 << "------------------------------------------------------------------------" << endl;
-        for (const auto& studentas : A) {
-            if (studentas.galutinis < 5.0){
-            out << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
-            }
-            else {
-            out1 << left << setw(15) << studentas.vardas << left << setw(15) << studentas.pavarde << left << setw(15) << setprecision(3) << studentas.galutinis <<  "         " << left << setw(15) << setprecision(3) <<  studentas.mediana << endl;
-            }
-        }
-        cout <<"Studentai buvo paskirstyti i vargsiukus ir kietiakus" << endl;
-        out.close();
-        out1.close();
+void rikiuotiStudentus(vector<Duomenys>& geri_studentai, vector<Duomenys>& blogi_studentai) {
+    int rikiavimoPasirinkimas;
+    cout << "Pasirinkite, kaip rikiuoti studentus:" << endl;
+    cout << "1. Pagal varda" << endl;
+    cout << "2. Pagal pavarde" << endl;
+    cout << "3. Pagal galutini (vid.)" << endl;
+    cout << "4. Pagal galutini (med.)" << endl;
+    cout << "Jusu pasirinkimas: ";
+    cin >> rikiavimoPasirinkimas;
+
+    if (rikiavimoPasirinkimas == 1) {
+        sort(geri_studentai.begin(), geri_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.vardas < b.vardas;
+        });
+        sort(blogi_studentai.begin(), blogi_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.vardas < b.vardas;
+        });
+    } else if (rikiavimoPasirinkimas == 2) {
+        sort(geri_studentai.begin(), geri_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.pavarde < b.pavarde;
+        });
+        sort(blogi_studentai.begin(), blogi_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.pavarde < b.pavarde;
+        });
+    } else if (rikiavimoPasirinkimas == 3) {
+        sort(geri_studentai.begin(), geri_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.galutinis > b.galutinis;
+        });
+        sort(blogi_studentai.begin(), blogi_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.galutinis > b.galutinis;
+        });
+    } else if (rikiavimoPasirinkimas == 4) {
+        sort(geri_studentai.begin(), geri_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.mediana > b.mediana;
+        });
+        sort(blogi_studentai.begin(), blogi_studentai.end(), [](const Duomenys& a, const Duomenys& b) {
+            return a.mediana > b.mediana;
+        });
+    } else {
+        cout << "Netinkamas pasirinkimas!" << endl;
+        return;
+    }
+
+    // Išvesti gerus studentus į failą "Geri_studentai.txt"
+    ofstream geri_failas("Geri_studentai.txt");
+    if (!geri_failas.is_open()) {
+        cout << "Klaida: Nepavyko sukurti failo Geri_studentai.txt" << endl;
+        return;
+    }
+    geri_failas << "Geri studentai:" << endl;
+    geri_failas << "Vardas         Pavarde       (Vid.)        (Med.)" << endl;
+    for (const auto& studentas : geri_studentai) {
+        geri_failas << left << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << setw(15) << setprecision(3) << studentas.galutinis << setw(15) << setprecision(3) << studentas.mediana << endl;
+    }
+    geri_failas.close();
+    cout << "Geri studentai išvesti į failą Geri_studentai.txt" << endl;
+
+    // Išvesti blogus studentus į failą "Blogi_studentai.txt"
+    ofstream blogi_failas("Blogi_studentai.txt");
+    if (!blogi_failas.is_open()) {
+        cout << "Klaida: Nepavyko sukurti failo Blogi_studentai.txt" << endl;
+        return;
+    }
+    blogi_failas << "Blogi studentai:" << endl;
+    blogi_failas << "Vardas         Pavarde       (Vid.)        (Med.)" << endl;
+    for (const auto& studentas : blogi_studentai) {
+        blogi_failas << left << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << setw(15) << setprecision(3) << studentas.galutinis << setw(15) << setprecision(3) << studentas.mediana << endl;
+    }
+    blogi_failas.close();
+    cout << "Blogi studentai išvesti į failą Blogi_studentai.txt" << endl;
 }
 
