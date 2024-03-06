@@ -257,7 +257,16 @@ int main() {
 
             generuotiFailaSuStudentais(irasu_skaicius);
         } else if (choice == 8) {
-                isvestiIVardus(A);
+            vector<Duomenys> geri_studentai;
+            vector<Duomenys> blogi_studentai;
+            for (const auto& studentas : A) {
+            if (studentas.galutinis >= 5.0) {
+            geri_studentai.push_back(studentas);
+        } else {
+            blogi_studentai.push_back(studentas);
+        }
+    }
+    rikiuotiStudentus(geri_studentai, blogi_studentai);
         } else if (choice == 9) {
             break;
         } else {
