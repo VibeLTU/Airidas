@@ -23,6 +23,6 @@ void rikiuotiPagalGalutiniVidurki(std::vector<Duomenys>& A);
 void rikiuotiPagalMediana(std::vector<Duomenys>& A);
 void skaitytiIsFailo(std::vector<Duomenys>& A, const std::string& failoPavadinimas);
 void generuotiFailaSuStudentais(int irasu_skaicius);
-void isvestiIVardus(const std::vector<Duomenys>& A);
+void rikiuotiStudentus(std::vector<Duomenys>& geri_studentai, std::vector<Duomenys>& blogi_studentai);
 
 #endif // STRUKTURA_H_INCLUDED
